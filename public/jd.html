@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Job Description</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    background:#F8F7FF;
+    overflow-x:hidden;
+}
+
+/* BACKGROUND BLOBS */
+body::before, body::after{
+    content:"";
+    position:absolute;
+    width:400px;
+    height:400px;
+    border-radius:50%;
+    filter:blur(100px);
+    z-index:-1;
+}
+body::before{
+    background:#7C3AED;
+    top:-100px;
+    left:-100px;
+}
+body::after{
+    background:#06B6D4;
+    bottom:-100px;
+    right:-100px;
+}
+
+/* NAVBAR */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 60px;
+    background:rgba(255,255,255,0.7);
+    backdrop-filter:blur(20px);
+}
+
+.logo{
+    font-size:20px;
+    font-weight:800;
+    color:#1E1B4B;
+}
+
+/* CONTAINER */
+.container{
+    max-width:900px;
+    margin:60px auto;
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(20px);
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 20px 60px rgba(124,58,237,0.12);
+    position:relative;
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+/* AVATAR */
+.avatar{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#7C3AED,#06B6D4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+/* TEXT */
+h2{
+    font-size:24px;
+    font-weight:800;
+    color:#1E1B4B;
+}
+
+.desc{
+    font-size:14px;
+    color:#6B7280;
+    margin-bottom:20px;
+}
+
+/* TEXTAREA */
+textarea{
+    width:100%;
+    height:200px;
+    padding:15px;
+    border-radius:12px;
+    border:2px solid #E5E7EB;
+    outline:none;
+    font-family:inherit;
+}
+
+textarea:focus{
+    border-color:#7C3AED;
+    box-shadow:0 0 0 4px rgba(124,58,237,0.1);
+}
+
+/* BUTTON */
+button{
+    margin-top:15px;
+    padding:14px 20px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#7C3AED,#8B5CF6);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(124,58,237,0.3);
+}
+
+/* KEYWORDS */
+.keyword-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:10px;
+    padding:10px;
+    background:#F3F4F6;
+    border-radius:10px;
+}
+
+/* FLOATING CHARACTER */
+.character-wrapper{
+    position:absolute;
+    right:-180px;
+    top:50%;
+    transform:translateY(-50%);
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(-50%) translateY(0);}
+    50%{transform:translateY(-50%) translateY(-20px);}
+}
+
+.char-svg{
+    width:260px;
+    height:auto;
+    filter:drop-shadow(0 25px 40px rgba(124,58,237,0.35));
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">PromptCV Dashboard</div>
+</div>
+
+<!-- LOADER -->
+<div id="loader" style="
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(255,255,255,0.7);
+backdrop-filter: blur(8px);
+display: none;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+z-index: 999;
+">
+    <h2 id="timerText">Processing...</h2>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+    <div class="header">
+        <div class="avatar">
+            <svg viewBox="0 0 56 56">
+                <rect width="56" height="56" fill="url(#g)"/>
+                <circle cx="28" cy="22" r="11" fill="white"/>
+                <ellipse cx="28" cy="46" rx="18" ry="12" fill="white"/>
+                <defs>
+                    <linearGradient id="g">
+                        <stop stop-color="#7C3AED"/>
+                        <stop offset="1" stop-color="#06B6D4"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+
+        <h2>Step 2: Paste Job Description</h2>
+    </div>
+
+    <p class="desc">Paste the job description to extract important keywords using AI.</p>
+
+    <textarea id="jd" placeholder="Paste JD here..."></textarea>
+
+    <button onclick="extractKeywords()">Extract Keywords</button>
+
+    <div id="keywords"></div>
+
+    <button onclick="nextStep()">Next →</button>
+
+    <!-- FLOATING CHARACTER -->
+    <div class="character-wrapper">
+        <svg class="char-svg" viewBox="0 0 130 150">
+            <ellipse cx="75" cy="135" rx="40" ry="12" fill="rgba(124,58,237,0.15)"/>
+            <circle cx="80" cy="115" r="25" fill="#A78BFA" opacity="0.8"/>
+            <rect x="52" y="75" width="36" height="40" rx="12" fill="#C4B5FD"/>
+            <circle cx="70" cy="60" r="20" fill="#FDE68A"/>
+        </svg>
+    </div>
+
+</div>
+
+<script>
+let extractedKeywords = [];
+
+async function extractKeywords() {
+
+    const jd = document.getElementById("jd").value;
+
+    if (!jd) {
+        alert("Please paste JD");
+        return;
+    }
+
+    startLoader(30, "Extracting Keywords...");
+
+    const res = await fetch("http://localhost:5000/extract-keywords", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ jd })
+    });
+
+    const data = await res.json();
+
+    stopLoader();
+
+    extractedKeywords = [...new Set(data.keywords.map(k => k.trim()))];
+
+    const container = document.getElementById("keywords");
+    container.innerHTML = "<h3>Set Keyword Importance</h3>";
+
+    extractedKeywords.forEach((kw, index) => {
+        let options = "";
+
+        for (let i = 1; i <= 100; i++) {
+            options += `<option value="${i}" ${i===50?"selected":""}>${i}</option>`;
+        }
+
+        container.innerHTML += `
+            <div class="keyword-row">
+                <span>${kw}</span>
+                <select id="kw-${index}">
+                    ${options}
+                </select>
+            </div>
+        `;
+    });
+}
+
+function nextStep() {
+    if (extractedKeywords.length === 0) {
+        alert("Extract keywords first");
+        return;
+    }
+
+    let keywordData = [];
+
+    extractedKeywords.forEach((kw, index) => {
+        const value = document.getElementById(`kw-${index}`).value;
+        keywordData.push({ keyword: kw, weight: value });
+    });
+
+    localStorage.setItem("keywords", JSON.stringify(keywordData));
+
+    window.location.href = "generate.html";
+}
+
+function startLoader(seconds, message) {
+    const loader = document.getElementById("loader");
+    const text = document.getElementById("timerText");
+
+    loader.style.display = "flex";
+
+    let time = seconds;
+
+    text.innerText = `${message} (${time}s)`;
+
+    const interval = setInterval(() => {
+        time--;
+        text.innerText = `${message} (${time}s)`;
+
+        if (time <= 0) {
+            clearInterval(interval);
+        }
+    }, 1000);
+}
+
+function stopLoader() {
+    document.getElementById("loader").style.display = "none";
+}
+</script>
+
+</body>
+</html>

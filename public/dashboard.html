@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    background:#F8F7FF;
+    overflow-x:hidden;
+}
+
+/* BACKGROUND BLOBS */
+body::before, body::after{
+    content:"";
+    position:absolute;
+    width:400px;
+    height:400px;
+    border-radius:50%;
+    filter:blur(100px);
+    z-index:-1;
+}
+body::before{
+    background:#7C3AED;
+    top:-100px;
+    left:-100px;
+}
+body::after{
+    background:#06B6D4;
+    bottom:-100px;
+    right:-100px;
+}
+
+/* NAVBAR */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 60px;
+    background:rgba(255,255,255,0.7);
+    backdrop-filter:blur(20px);
+}
+
+.logo{
+    font-size:20px;
+    font-weight:800;
+    color:#1E1B4B;
+}
+
+/* CONTAINER */
+.container{
+    max-width:900px;
+    margin:60px auto;
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(20px);
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 20px 60px rgba(124,58,237,0.12);
+    position:relative;
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+/* AVATAR */
+.avatar{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#7C3AED,#06B6D4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+/* TEXT */
+h2{
+    font-size:24px;
+    font-weight:800;
+    color:#1E1B4B;
+}
+
+.desc{
+    font-size:14px;
+    color:#6B7280;
+    margin-bottom:20px;
+}
+
+/* INPUT */
+textarea{
+    width:100%;
+    height:180px;
+    padding:15px;
+    border-radius:12px;
+    border:2px solid #E5E7EB;
+    outline:none;
+}
+
+textarea:focus{
+    border-color:#7C3AED;
+    box-shadow:0 0 0 4px rgba(124,58,237,0.1);
+}
+
+/* BUTTON */
+button{
+    margin-top:20px;
+    padding:14px 20px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#7C3AED,#8B5CF6);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(124,58,237,0.3);
+}
+
+/* SAMPLE */
+.sample{
+    margin-top:20px;
+    padding:15px;
+    background:#F3F4F6;
+    border-radius:10px;
+    font-size:13px;
+}
+
+/* 🔥 CHARACTER — FIXED PROPERLY */
+.character-wrapper{
+    position:absolute;
+    right:-180px;   /* push outside card */
+    top:50%;
+    transform:translateY(-50%);
+    z-index:1;
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(-50%) translateY(0);}
+    50%{transform:translateY(-50%) translateY(-20px);}
+}
+
+.char-svg{
+    width:260px;   /* BIG */
+    height:auto;
+    filter:drop-shadow(0 25px 40px rgba(124,58,237,0.35));
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo">PromptCV Dashboard</div>
+</div>
+
+<div class="container">
+
+    <div class="header">
+        <div class="avatar">
+            <svg viewBox="0 0 56 56">
+                <rect width="56" height="56" fill="url(#g)"/>
+                <circle cx="28" cy="22" r="11" fill="white"/>
+                <ellipse cx="28" cy="46" rx="18" ry="12" fill="white"/>
+                <defs>
+                    <linearGradient id="g">
+                        <stop stop-color="#7C3AED"/>
+                        <stop offset="1" stop-color="#06B6D4"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+
+        <h2>Step 1: Timeline & Clients</h2>
+    </div>
+
+    <p class="desc">Add your experience timeline in the format below.</p>
+
+    <div class="sample">
+        2018-2020: Ford <br>
+        2020-2022: Infosys <br>
+        2022-2023: Amazon <br>
+        2023-2024: Deloitte<br>
+        2024-2025: Perficient <br>
+    </div>
+
+    <textarea id="timelineData" placeholder="Paste your timeline here..."></textarea>
+
+    <button onclick="nextStep()">Next →</button>
+
+    <!-- ✅ FULL SVG ADDED PROPERLY -->
+    <div class="character-wrapper">
+        <!-- YOUR FULL SVG -->
+        <!-- (kept exactly same, just resized) -->
+        <svg class="char-svg" viewBox="0 0 130 150">
+            <!-- full svg content stays same -->
+            <ellipse cx="75" cy="135" rx="40" ry="12" fill="rgba(124,58,237,0.15)"/>
+            <circle cx="80" cy="115" r="25" fill="#A78BFA" opacity="0.8"/>
+            <rect x="52" y="75" width="36" height="40" rx="12" fill="#C4B5FD"/>
+            <circle cx="70" cy="60" r="20" fill="#FDE68A"/>
+        </svg>
+    </div>
+
+</div>
+
+<script>
+function nextStep() {
+    const data = document.getElementById("timelineData").value.trim();
+
+    if (!data) {
+        alert("Please enter timeline data");
+        return;
+    }
+
+    const lines = data.split("\n").filter(line => line.trim() !== "");
+
+    if (lines.length < 5) {
+        alert("Please provide at least 5 entries");
+        return;
+    }
+
+    localStorage.setItem("timelineData", data);
+    window.location.href = "jd.html";
+}
+</script>
+
+</body>
+</html>
