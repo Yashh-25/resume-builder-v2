@@ -199,7 +199,7 @@ async function generateResume() {
 
     startLoader(60, "Generating Resume...");
 
-    const res = await fetch("http://localhost:5000/generate-resume", {
+    const res = await fetch("/generate-resume", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ timeline, keywords, userComment })

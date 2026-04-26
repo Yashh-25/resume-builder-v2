@@ -247,7 +247,7 @@ async function extractKeywords() {
 
     startLoader(30, "Extracting Keywords...");
 
-    const res = await fetch("http://localhost:5000/extract-keywords", {
+    const res = await fetch("/extract-keywords", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
