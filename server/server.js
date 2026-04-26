@@ -145,7 +145,7 @@ ${userComment || "None"}
 STRICT RULES:
 
 1. Structure:
-- Professional Summary (25 points)
+- Professional Summary (8 points)
 And in professional summary start 15 points with words I'm giving now:
 1. Professional
 2. Extensive experience
